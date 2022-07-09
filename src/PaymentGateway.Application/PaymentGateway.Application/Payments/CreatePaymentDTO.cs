@@ -4,7 +4,7 @@
     {
         public Guid RequestId { get; set; }
         
-        public decimal Ammount { get; set; }
+        public decimal Amount { get; set; }
 
         public string Currency { get; set; }
 

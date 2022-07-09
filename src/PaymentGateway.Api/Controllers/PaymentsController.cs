@@ -1,44 +1,48 @@
 namespace PaymentGateway.Api.Controllers
 {
+    using MediatR;
+
     using Microsoft.AspNetCore.Mvc;
 
     using PaymentGateway.Application.Payments;
+    using PaymentGateway.Application.Payments.Commands.Create;
+    using PaymentGateway.Application.Payments.Queries.GetById;
 
     [ApiController]
     [Route("[controller]")]
     public class PaymentsController : ControllerBase
     {
-        private readonly ILogger<PaymentsController> _logger;
+        private readonly ILogger<PaymentsController> logger;
 
-        public PaymentsController(ILogger<PaymentsController> logger)
+        private IMediator mediator { get; }
+
+        public PaymentsController(ILogger<PaymentsController> logger, IMediator mediator)
         {
-            _logger = logger;
+            this.logger = logger;
+            this.mediator = mediator;
         }
 
         [HttpPost(Name = "CreatePayment")]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
-        public IActionResult CreatePayment()
+        public async Task<IActionResult> CreatePayment([FromBody] CreatePaymentDTO payment)
         {
-            return Accepted($"/payments/{Guid.NewGuid()}", null);
+            var paymentId = await mediator.Send(new CreatePaymentCommand(Guid.NewGuid(), payment));
+
+            return Accepted($"/payments/{paymentId}", null);
         }
 
-        [HttpGet("{id}",Name = "GetPaymentDetails")]
+        [HttpGet("{id}", Name = "GetPaymentDetails")]
         [ProducesResponseType(typeof(PaymentDetailsDTO), StatusCodes.Status200OK)]
-        public IActionResult GetPaymentDetails([FromRoute] Guid id)
+        public async Task<IActionResult> GetPaymentDetails([FromRoute] Guid id)
         {
-            return Ok(new PaymentDetailsDTO
+            var payment = await mediator.Send(new GetPaymentByIdQuery(new Guid("72e07f57-eb9c-4bc3-862e-6c4416d5744d"), id));
+
+            if(payment is null)
             {
-                Amount = 1000,
-                Currency = "EUR",
-                CardDetails = new CardDetailsDTO
-                {
-                    CardNumber = "1212121",
-                    Cvv = 223,
-                    ExpiryMonth = 2,
-                    ExpiryYear = 2030
-                },
-                Status = "Accepted"
-            });
+                return NotFound();
+            }
+
+            return Ok(payment);
         }
     }
 }

@@ -1,5 +1,14 @@
 namespace PaymentGateway.Api
 {
+    using MediatR;
+
+    using Microsoft.EntityFrameworkCore;
+
+    using PaymentGateway.Application.Common.Interfaces;
+    using PaymentGateway.Domain.Services;
+    using PaymentGateway.Infrastructure.Data;
+    using PaymentGateway.Infrastructure.Gateways;
+
     public class Program
     {
         public static void Main(string[] args)
@@ -7,11 +16,19 @@ namespace PaymentGateway.Api
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseNpgsql(builder.Configuration.GetConnectionString("PaymentsGateway")));
+            builder.Services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
+            builder.Services.AddScoped<IAcquiringBankGateway, MockedAcquiringBankGateway>();
+
+            builder.Services.AddSingleton<ICardNumberMaskingService, CardNumberMaskingService>();
+
+            builder.Services.AddMediatR(typeof(PaymentGateway.Application.Payments.Commands.Create.CreatePaymentCommand).Assembly);
+
 
             var app = builder.Build();
 

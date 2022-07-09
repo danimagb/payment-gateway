@@ -2,8 +2,8 @@
 {
     public class InvalidCardExpiryDateException : Exception
     {
-        public InvalidCardExpiryDateException()
-            : base($"Card has expired")
+        public InvalidCardExpiryDateException(string datePart)
+            : base($"Card expiry date is invalid. Invalid date part: {datePart}")
         {
         }
     }

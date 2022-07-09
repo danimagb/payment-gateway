@@ -1,12 +1,11 @@
 ﻿namespace PaymentGateway.Domain.Payments
 {
-    using PaymentGateway.Domain.Common;
     using PaymentGateway.Domain.Enums;
     using PaymentGateway.Domain.ValueObjects;
 
-    public class Payment : BaseEntity
+    public class Payment
     {
-        
+        public Guid Id { get; }
 
         public Guid RequestId { get; }
 
@@ -18,38 +17,54 @@
 
         public CardDetails CardDetails { get; private set; }
 
-        public DateTime RequestedAt { get; }
+        public DateTime CreatedAt { get; }
 
-        public DateTime UpdatedAt { get; private set; }
+        public DateTime? ProcessedAt { get; private set; }
 
+        private bool IsProcessed => this.Status is not PaymentStatus.Pending;
 
-        private Payment(Guid requestId, Guid merchantId, PaymentAmount amount, CardDetails cardDetails)
-            : base(Guid.NewGuid())
+        public Payment(Guid requestId, Guid merchantId, PaymentAmount amount, CardDetails cardDetails)
+            : this (Guid.NewGuid(), requestId, merchantId, PaymentStatus.Pending ,DateTime.UtcNow)
         {
+            this.Id = Guid.NewGuid();
             this.Status = PaymentStatus.Pending;
-            this.RequestedAt = DateTime.UtcNow;
+            this.CreatedAt = DateTime.UtcNow;
             this.RequestId = requestId;
             this.MerchantId = merchantId;
             this.Amount = amount;
             this.CardDetails = cardDetails; 
         }
 
+        private Payment(Guid Id, Guid requestId, Guid merchantId, PaymentStatus status, DateTime createdAt, DateTime? ProcessedAt = null)
+        {
+            this.Id = Id;
+            this.RequestId = requestId;
+            this.MerchantId = merchantId;
+            this.Status = status;
+            this.CreatedAt = createdAt;
+            this.ProcessedAt = ProcessedAt;
+        }
+
         public void Accept()
         {
+            if (IsProcessed)
+            {
+                throw new InvalidOperationException();
+            }
+
             this.Status = PaymentStatus.Accepted;
-            this.UpdatedAt = DateTime.UtcNow;
+            this.ProcessedAt = DateTime.UtcNow;
         }
 
         public void Decline()
         {
+            if (IsProcessed)
+            {
+                throw new InvalidOperationException();
+            }
+
             this.Status = PaymentStatus.Declined;
-            this.UpdatedAt = DateTime.UtcNow;
+            this.ProcessedAt = DateTime.UtcNow;
         }
-
-        public static Payment Create(Guid requestId, Guid merchantId, PaymentAmount amount, CardDetails cardDetails)
-        {
-            return new Payment(requestId, merchantId, amount, cardDetails);
-        }
-
     }
 }

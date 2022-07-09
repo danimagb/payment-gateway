@@ -12,9 +12,9 @@
 
         public CardDetailsDTO CardDetails { get; set; }
 
-        public DateTime RequestedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
 
-        public DateTime UpdatedAt { get; set; }
+        public DateTime ProcessedAt { get; set; }
 
         public string Status { get; set; }  
     }

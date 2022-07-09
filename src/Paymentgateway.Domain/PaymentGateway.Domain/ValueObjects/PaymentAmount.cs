@@ -2,19 +2,21 @@
 {
     public class PaymentAmount
     {
-        public decimal Ammount { get; }
+        private readonly decimal MininumPaymentValue = 0m;
 
-        public Currency Currency { get; }
+        public decimal Value { get; private set; }
 
-        private PaymentAmount(decimal ammount, Currency currency)
+        public PaymentCurrency Currency { get; private set; }
+
+        public PaymentAmount(decimal value, PaymentCurrency currency)
+            : this(value)
         {
-            this.Ammount = ammount;
             this.Currency = currency;
         }
 
-        public static PaymentAmount Create(decimal ammount, Currency currency)
+        private PaymentAmount(decimal value)
         {
-            return new PaymentAmount(ammount, currency);
+            this.Value = value;
         }
     }
 }

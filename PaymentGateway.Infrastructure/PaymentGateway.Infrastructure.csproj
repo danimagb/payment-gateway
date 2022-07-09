@@ -7,16 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MediatR" Version="10.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.6" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Paymentgateway.Domain\PaymentGateway.Domain\PaymentGateway.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Payments\Gateways\" />
+    <ProjectReference Include="..\src\PaymentGateway.Application\PaymentGateway.Application\PaymentGateway.Application.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,29 +1,32 @@
 ﻿namespace PaymentGateway.Domain.ValueObjects
 {
+    using System.Text.RegularExpressions;
     public class CardDetails
     {
-        public string Number { get; }
+        public CardNumber Number { get; }
 
-        public string Cvv { get; }
+        public CardVerificationValue Cvv { get; }
 
         public CardExpiryDate ExpiryDate { get; }
 
         public string HolderName { get; }
 
-        private CardDetails(string number, string cvv, CardExpiryDate expiryDate, string holderName)
+        private CardDetails(CardNumber cardNumber, CardVerificationValue cvv, CardExpiryDate expiryDate, string holderName) 
+            : this (holderName)
         {
-            this.Number = number;
+            this.Number = cardNumber;
             this.Cvv = cvv;
-            this.ExpiryDate = expiryDate;
-            this.HolderName = holderName;           
+            this.ExpiryDate = expiryDate;        
         }
 
-        public static CardDetails Create(string number, string cvv, CardExpiryDate expiryDate, string holderName)
+        private CardDetails (string holderName)
         {
-            //TODO: Extra validations might be needed based on the card checksum digits of each card type (e.g: Visa, MasterCard)
-
-            return new CardDetails(number, cvv, expiryDate, holderName);
+            this.HolderName = holderName;
         }
 
+        public static CardDetails Create(CardNumber cardNumber, CardVerificationValue cvv, CardExpiryDate expiryDate, string holderName)
+        {
+            return new CardDetails(cardNumber, cvv, expiryDate, holderName);
+        }
     }
 }

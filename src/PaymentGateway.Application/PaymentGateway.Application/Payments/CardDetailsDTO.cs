@@ -2,11 +2,11 @@
 {
     public class CardDetailsDTO
     {
-        public string CardHolder { get; set; }
+        public string Holder { get; set; }
 
-        public string CardNumber { get; set; }
+        public string Number { get; set; }
 
-        public int Cvv { get; set; }
+        public string Cvv { get; set; }
 
         public int ExpiryMonth { get; set; }
 
