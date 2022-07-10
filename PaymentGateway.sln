@@ -15,9 +15,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{7D6A711B
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{147BA41F-291D-44DE-9208-06DE079B40D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymetGateway.Application.Tests", "tests\Unit.Tests\PaymetGateway.Application.Tests\PaymetGateway.Application.Tests\PaymetGateway.Application.Tests.csproj", "{684AB923-5537-4CBA-8888-90CBB4DF2722}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymetGateway.Application.Tests", "tests\Unit.Tests\PaymetGateway.Application.Tests\PaymetGateway.Application.Tests.csproj", "{684AB923-5537-4CBA-8888-90CBB4DF2722}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentGateway.Domain.Tests", "tests\Unit.Tests\PaymentGateway.Domain.Tests\PaymentGateway.Domain.Tests\PaymentGateway.Domain.Tests.csproj", "{E4C7C9F6-99E5-492E-AB82-D40F0970DAAA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentGateway.Domain.Tests", "tests\Unit.Tests\PaymentGateway.Domain.Tests\PaymentGateway.Domain.Tests.csproj", "{E4C7C9F6-99E5-492E-AB82-D40F0970DAAA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
