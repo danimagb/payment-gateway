@@ -2,40 +2,40 @@ namespace PaymentGateway.Api.Controllers
 {
     using MediatR;
 
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     using PaymentGateway.Application.Payments;
     using PaymentGateway.Application.Payments.Commands.Create;
     using PaymentGateway.Application.Payments.Queries.GetById;
 
+    
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class PaymentsController : ControllerBase
     {
-        private readonly ILogger<PaymentsController> logger;
-
         private IMediator mediator { get; }
 
-        public PaymentsController(ILogger<PaymentsController> logger, IMediator mediator)
+        public PaymentsController(IMediator mediator)
         {
-            this.logger = logger;
             this.mediator = mediator;
         }
 
         [HttpPost(Name = "CreatePayment")]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
-        public async Task<IActionResult> CreatePayment([FromBody] CreatePaymentDTO payment)
+        public async Task<IActionResult> CreatePayment([FromBody] CreatePaymentDTO payment, CancellationToken cancellationToken)
         {
-            var paymentId = await mediator.Send(new CreatePaymentCommand(Guid.NewGuid(), payment));
+            var paymentId = await mediator.Send(new CreatePaymentCommand(this.GetAuthenticatedMerchantId(), payment), cancellationToken);
 
-            return Accepted($"/payments/{paymentId}", null);
+            return CreatedAtRoute(nameof(GetPaymentDetails), new { id = paymentId }, null);
         }
 
-        [HttpGet("{id}", Name = "GetPaymentDetails")]
+        [HttpGet("{id:guid}", Name = "GetPaymentDetails")]
         [ProducesResponseType(typeof(PaymentDetailsDTO), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetPaymentDetails([FromRoute] Guid id)
+        public async Task<IActionResult> GetPaymentDetails([FromRoute] Guid id, CancellationToken cancellationToken)
         {
-            var payment = await mediator.Send(new GetPaymentByIdQuery(new Guid("72e07f57-eb9c-4bc3-862e-6c4416d5744d"), id));
+            var payment = await mediator.Send(new GetPaymentByIdQuery(this.GetAuthenticatedMerchantId(), id), cancellationToken);
 
             if(payment is null)
             {

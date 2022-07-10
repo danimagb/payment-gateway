@@ -21,7 +21,7 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-E
     created_at timestamptz NOT NULL,
     processed_at timestamptz,
     status text NOT NULL,
-	  UNIQUE(request_id)
+	  UNIQUE(merchant_id, request_id)
 	);
 	CREATE INDEX idx_merchant_id_request_id ON payments (merchant_id, request_id);
   COMMIT;
