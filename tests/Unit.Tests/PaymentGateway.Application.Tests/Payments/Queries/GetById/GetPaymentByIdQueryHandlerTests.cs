@@ -98,6 +98,7 @@
                 CreatedAt = payment.CreatedAt,
                 ProcessedAt = payment.ProcessedAt,
                 Status = payment.Status.ToString(),
+                Message = payment.Message
             };
         }
     }

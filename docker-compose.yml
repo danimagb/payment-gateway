@@ -4,7 +4,7 @@ services:
   payment-gateway-api:
     image: payment-gateway-api
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Docker
     build:
       context: .
       dockerfile: deploy/Docker/Dockerfile
@@ -14,6 +14,22 @@ services:
       - 9501:9501
     depends_on: 
       - payment-gateway-database
+  unit-tests:
+    image: payment-gateway-api-unit-tests
+    build:
+      context: .
+      dockerfile: deploy/Docker/Dockerfile
+      target: unit-tests
+      args:
+        RELEASE_VERSION: ${RELEASE_VERSION}
+  integration-tests:
+    image: payment-gateway-api-integration-tests
+    build:
+      context: .
+      dockerfile: deploy/Docker/Dockerfile
+      target: integration-tests
+      args:
+        RELEASE_VERSION: ${RELEASE_VERSION}
   payment-gateway-database:
     image: postgres:14.4
     healthcheck:

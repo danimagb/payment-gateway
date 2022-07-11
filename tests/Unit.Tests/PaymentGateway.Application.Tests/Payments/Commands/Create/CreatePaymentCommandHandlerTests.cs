@@ -120,7 +120,6 @@
                 Currency = "USD",
                 RequestId = requestId,
             };
-
         }
     }
 }

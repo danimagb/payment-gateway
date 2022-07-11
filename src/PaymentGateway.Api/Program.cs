@@ -116,11 +116,10 @@ namespace PaymentGateway.Api
             app.UseSerilogRequestLogging();
 
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+         
+            app.UseSwagger();
+            app.UseSwaggerUI();
+
             app.UseProblemDetails();
             app.UseHttpsRedirection();
 

@@ -63,7 +63,7 @@
 
                 await this.context.SaveChangesAsync(cancellationToken);
 
-
+                // TODO: Extract to a mapper
                 return new CreatePaymentResponseDTO
                 {
                     Id = payment.Id,
