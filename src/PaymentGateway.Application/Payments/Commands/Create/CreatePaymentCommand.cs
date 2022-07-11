@@ -2,13 +2,13 @@
 {
     using MediatR;
 
-    public class CreatePaymentCommand : IRequest<Guid>
+    public class CreatePaymentCommand : IRequest<CreatePaymentResponseDTO>
     {
         public Guid MerchantId { get; }
 
-        public CreatePaymentDTO Payment { get; }
+        public CreatePaymentRequestDTO Payment { get; }
 
-        public CreatePaymentCommand(Guid merchantId, CreatePaymentDTO payment)
+        public CreatePaymentCommand(Guid merchantId, CreatePaymentRequestDTO payment)
         {
             this.MerchantId = merchantId;
             this.Payment = payment;

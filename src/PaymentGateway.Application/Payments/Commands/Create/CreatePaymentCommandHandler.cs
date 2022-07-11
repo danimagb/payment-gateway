@@ -9,10 +9,10 @@
     using PaymentGateway.Application.Common.Interfaces;
     using PaymentGateway.Domain.Common;
     using PaymentGateway.Domain.Enums;
-    using PaymentGateway.Domain.Payments;
+    using PaymentGateway.Domain.Entities;
     using PaymentGateway.Domain.ValueObjects;
 
-    public class CreatePaymentCommandHandler : IRequestHandler<CreatePaymentCommand, Guid>
+    public class CreatePaymentCommandHandler : IRequestHandler<CreatePaymentCommand, CreatePaymentResponseDTO>
     {
         private readonly ILogger<CreatePaymentCommandHandler> logger;
         private readonly IApplicationDbContext context;
@@ -25,11 +25,11 @@
             this.acquiringBankGateway = acquiringBankGateway;
         }
 
-        public async Task<Guid> Handle(CreatePaymentCommand request, CancellationToken cancellationToken)
+        public async Task<CreatePaymentResponseDTO> Handle(CreatePaymentCommand request, CancellationToken cancellationToken)
         {
             try
             {
-                var existentPayment = await this.context.Payments.FirstOrDefaultAsync(p => p.MerchantId.Equals(request.MerchantId) && p.RequestId.Equals(request.Payment.RequestId), cancellationToken);
+                var existentPayment = await this.context.Payments.FirstOrDefaultAsync(p => p.MerchantId == request.MerchantId && p.RequestId == request.Payment.RequestId, cancellationToken);
 
                 if (existentPayment is not null)
                 {
@@ -64,7 +64,15 @@
                 await this.context.SaveChangesAsync(cancellationToken);
 
 
-                return payment.Id;
+                return new CreatePaymentResponseDTO
+                {
+                    Id = payment.Id,
+                    RequestId = payment.RequestId,
+                    CreatedAt = payment.CreatedAt,
+                    ProcessedAt = payment.ProcessedAt,
+                    Status = payment.Status.ToString(),
+                    Message = payment.Message
+                };
             }
             catch (DomainValidationException ex)
             {
@@ -79,19 +87,20 @@
             {
                 var paymentProcessedResponse = await acquiringBankGateway.ProcessPaymentAsync(payment);
 
-                if (paymentProcessedResponse is not PaymentStatus.Accepted)
+                if (paymentProcessedResponse.status is not PaymentStatus.Accepted)
                 {
-                    payment.Decline();
+                    payment.Decline(paymentProcessedResponse.message);
                     return;
                 }
 
-                payment.Accept();
+                payment.Accept(paymentProcessedResponse.message);
 
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "An error occurred while processing the payment");
-                payment.Decline();
+                logger.LogError(ex, "An error occurred while processing the payment", new {paymentId = payment.Id});
+
+                payment.Decline("Something went wrong when processing the payment. Contact the system administrator for more information");
                 throw;
             }
         }

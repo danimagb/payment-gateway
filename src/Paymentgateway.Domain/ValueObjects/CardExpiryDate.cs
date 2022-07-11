@@ -30,7 +30,7 @@
                 throw new InvalidCardExpiryDateException(nameof(Month));
             }
 
-            if (!Range(MinimumYearLength, MaximumYearLength).Contains(year.ToString().Length))
+            if (year < 0 || !Range(MinimumYearLength, MaximumYearLength).Contains(year.ToString().Length))
             {
                 throw new InvalidCardExpiryDateException(nameof(Year));
             }

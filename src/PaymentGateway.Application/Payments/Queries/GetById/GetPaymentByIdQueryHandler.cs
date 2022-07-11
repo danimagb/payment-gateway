@@ -11,7 +11,7 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    internal class GetPaymentByIdQueryHandler : IRequestHandler<GetPaymentByIdQuery, PaymentDetailsDTO>
+    public class GetPaymentByIdQueryHandler : IRequestHandler<GetPaymentByIdQuery, PaymentDetailsResponseDTO>
     {
         private readonly ILogger<GetPaymentByIdQueryHandler> logger;
         private readonly IApplicationDbContext context;
@@ -24,7 +24,7 @@
             this.maskingService = maskingService;
         }
 
-        public async Task<PaymentDetailsDTO> Handle(GetPaymentByIdQuery request, CancellationToken cancellationToken)
+        public async Task<PaymentDetailsResponseDTO> Handle(GetPaymentByIdQuery request, CancellationToken cancellationToken)
         {
             var payment =  await this.context.Payments
                 .FirstOrDefaultAsync(p => p.MerchantId.Equals(request.MerchantId) && p.Id.Equals(request.PaymentId), cancellationToken);
@@ -35,7 +35,7 @@
             }
 
             // TODO: Extract to a mapper
-            return new PaymentDetailsDTO
+            return new PaymentDetailsResponseDTO
             {
                 Id = payment.Id,
                 RequestId = payment.RequestId,
@@ -50,8 +50,9 @@
                 Amount = payment.Amount.Value,
                 Currency = payment.Amount.Currency.Code,
                 CreatedAt = payment.CreatedAt,
-                ProcessedAt = payment.ProcessedAt.Value,
+                ProcessedAt = payment.ProcessedAt,
                 Status = payment.Status.ToString(),
+                Message = payment.Message
             };
         }
     }

@@ -1,6 +1,8 @@
-namespace PaymentGateway.Domain.Tests
+using Xunit;
+
+namespace PaymentGateway.Integration.Tests
 {
-    using Xunit;
+
     public class UnitTest1
     {
         [Fact]

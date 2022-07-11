@@ -1,7 +1,20 @@
 version: '3'
 
 services:
-  database:
+  payment-gateway-api:
+    image: payment-gateway-api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    build:
+      context: .
+      dockerfile: deploy/Docker/Dockerfile
+      args:
+        RELEASE_VERSION: ${RELEASE_VERSION}
+    ports:
+      - 9501:9501
+    depends_on: 
+      - payment-gateway-database
+  payment-gateway-database:
     image: postgres:14.4
     healthcheck:
       test: [ "CMD", "pg_isready", "-q", "-d", "postgres", "-U", "root" ]

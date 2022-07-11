@@ -16,9 +16,14 @@
 
         public static CardNumber Create(string value)
         {
-            value = Regex.Replace(value, @"\s", string.Empty);
+            if (value is null)
+            {
+                throw new InvalidCardNumberException();
+            }
 
-            if (!Regex.IsMatch(value, cardNumberSchema) || value is null)
+            var valueWithNoSpaces = value.Replace(" ", string.Empty).Replace("-", string.Empty);
+
+            if (!Regex.IsMatch(valueWithNoSpaces, cardNumberSchema))
             {
                 throw new InvalidCardNumberException();
             }

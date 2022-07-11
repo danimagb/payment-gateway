@@ -4,7 +4,7 @@
 
     using PaymentGateway.Application.Common.Interfaces;
     using PaymentGateway.Domain.Enums;
-    using PaymentGateway.Domain.Payments;
+    using PaymentGateway.Domain.Entities;
 
     public class ApplicationDbContext : DbContext, IApplicationDbContext
     {
@@ -30,6 +30,7 @@
                 s => s.ToString(), 
                 s=>(PaymentStatus)Enum.Parse(typeof(PaymentStatus), s)
             );
+            paymentEntity.Property(p => p.Message).HasColumnName("status_message");
 
             paymentEntity.OwnsOne(payment => payment.CardDetails,
                 cardDetails =>

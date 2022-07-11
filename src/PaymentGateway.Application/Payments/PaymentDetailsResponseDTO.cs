@@ -1,6 +1,6 @@
 ﻿namespace PaymentGateway.Application.Payments
 {
-    public class PaymentDetailsDTO
+    public class PaymentDetailsResponseDTO
     {
         public Guid Id { get; set; }
 
@@ -14,8 +14,11 @@
 
         public DateTime CreatedAt { get; set; }
 
-        public DateTime ProcessedAt { get; set; }
+        public DateTime? ProcessedAt { get; set; }
 
-        public string Status { get; set; }  
+        public string Status { get; set; }
+
+        public string Message { get; set; }
+
     }
 }

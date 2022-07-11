@@ -1,10 +1,10 @@
 ﻿namespace PaymentGateway.Application.Common.Interfaces
 {
     using PaymentGateway.Domain.Enums;
-    using PaymentGateway.Domain.Payments;
+    using PaymentGateway.Domain.Entities;
 
     public interface IAcquiringBankGateway
     {
-        Task<PaymentStatus> ProcessPaymentAsync(Payment request);
+        Task<(PaymentStatus status, string message)> ProcessPaymentAsync(Payment request);
     }
 }

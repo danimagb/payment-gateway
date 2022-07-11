@@ -24,15 +24,15 @@ namespace PaymentGateway.Api.Controllers
 
         [HttpPost(Name = "CreatePayment")]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
-        public async Task<IActionResult> CreatePayment([FromBody] CreatePaymentDTO payment, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreatePayment([FromBody] CreatePaymentRequestDTO payment, CancellationToken cancellationToken)
         {
-            var paymentId = await mediator.Send(new CreatePaymentCommand(this.GetAuthenticatedMerchantId(), payment), cancellationToken);
+            var paymentDetails = await mediator.Send(new CreatePaymentCommand(this.GetAuthenticatedMerchantId(), payment), cancellationToken);
 
-            return CreatedAtRoute(nameof(GetPaymentDetails), new { id = paymentId }, null);
+            return CreatedAtRoute(nameof(GetPaymentDetails), new { id = paymentDetails.Id }, paymentDetails);
         }
 
         [HttpGet("{id:guid}", Name = "GetPaymentDetails")]
-        [ProducesResponseType(typeof(PaymentDetailsDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PaymentDetailsResponseDTO), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetPaymentDetails([FromRoute] Guid id, CancellationToken cancellationToken)
         {
             var payment = await mediator.Send(new GetPaymentByIdQuery(this.GetAuthenticatedMerchantId(), id), cancellationToken);

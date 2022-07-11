@@ -17,9 +17,12 @@
 
         public static CardVerificationValue Create(string value)
         {
-            value = Regex.Replace(value, @"\s", string.Empty);
+            if (value is null)
+            {
+                throw new InvalidCardVerificationValueException();
+            }
 
-            if (!Regex.IsMatch(value, cardVerificationValueSchema) || value is null)
+            if (!Regex.IsMatch(value, cardVerificationValueSchema))
             {
                 throw new InvalidCardVerificationValueException();
             }

@@ -1,5 +1,6 @@
-﻿namespace PaymentGateway.Domain.Payments
+﻿namespace PaymentGateway.Domain.Entities
 {
+    using PaymentGateway.Domain.Common;
     using PaymentGateway.Domain.Enums;
     using PaymentGateway.Domain.ValueObjects;
 
@@ -15,6 +16,8 @@
 
         public PaymentStatus Status { get; private set; }
 
+        public string Message { get; private set; }
+
         public CardDetails CardDetails { get; private set; }
 
         public DateTime CreatedAt { get; }
@@ -24,31 +27,28 @@
         private bool IsProcessed => this.Status is not PaymentStatus.Pending;
 
         private Payment(Guid requestId, Guid merchantId, PaymentAmount amount, CardDetails cardDetails)
-            : this (Guid.NewGuid(), requestId, merchantId, PaymentStatus.Pending ,DateTime.UtcNow)
+            : this (Guid.NewGuid(), requestId, merchantId, PaymentStatus.Pending, string.Empty, DateTime.UtcNow)
         {
-
             this.Status = PaymentStatus.Pending;
-            this.CreatedAt = DateTime.UtcNow;
+            this.CreatedAt = DateTimeProvider.Now;
             this.RequestId = requestId;
             this.MerchantId = merchantId;
             this.Amount = amount;
-            this.CardDetails = cardDetails; 
-
-            
+            this.CardDetails = cardDetails;  
         }
 
-        private Payment(Guid Id, Guid requestId, Guid merchantId, PaymentStatus status, DateTime createdAt, DateTime? ProcessedAt = null)
+        private Payment(Guid Id, Guid requestId, Guid merchantId, PaymentStatus status, string message, DateTime createdAt, DateTime? ProcessedAt = null)
         {
-
             this.Id = Id;
             this.RequestId = requestId;
             this.MerchantId = merchantId;
             this.Status = status;
+            this.Message = message;
             this.CreatedAt = createdAt;
             this.ProcessedAt = ProcessedAt;
         }
 
-        public void Accept()
+        public void Accept(string message)
         {
             if (IsProcessed)
             {
@@ -56,10 +56,11 @@
             }
 
             this.Status = PaymentStatus.Accepted;
-            this.ProcessedAt = DateTime.UtcNow;
+            this.ProcessedAt = DateTimeProvider.Now;
+            this.Message = message;
         }
 
-        public void Decline()
+        public void Decline(string message)
         {
             if (IsProcessed)
             {
@@ -67,7 +68,8 @@
             }
 
             this.Status = PaymentStatus.Declined;
-            this.ProcessedAt = DateTime.UtcNow;
+            this.ProcessedAt = DateTimeProvider.Now;
+            this.Message = message;
         }
 
         public static Payment Create(Guid requestId, Guid merchantId, PaymentAmount amount, CardDetails cardDetails)

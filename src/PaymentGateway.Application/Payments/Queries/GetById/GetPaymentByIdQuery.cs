@@ -2,7 +2,7 @@
 {
     using MediatR;
 
-    public class GetPaymentByIdQuery : IRequest<PaymentDetailsDTO>
+    public class GetPaymentByIdQuery : IRequest<PaymentDetailsResponseDTO>
     {
         public Guid MerchantId { get; }
         public Guid PaymentId { get; }

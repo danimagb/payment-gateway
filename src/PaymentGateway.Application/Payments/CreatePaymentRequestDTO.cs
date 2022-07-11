@@ -1,6 +1,6 @@
 ﻿namespace PaymentGateway.Application.Payments
 {
-    public class CreatePaymentDTO
+    public class CreatePaymentRequestDTO
     {
         public Guid RequestId { get; set; }
         

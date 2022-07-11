@@ -2,7 +2,7 @@
 {
     using Microsoft.EntityFrameworkCore;
 
-    using PaymentGateway.Domain.Payments;
+    using PaymentGateway.Domain.Entities;
 
     public interface IApplicationDbContext
     {
