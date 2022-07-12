@@ -17,9 +17,9 @@
     {
 
         [Theory]
-        [InlineData("4263 9826 4026 9299", "4263 98******* 9299")]
+        [InlineData("4263 9826 4026 9299", "426398******9299")]
         [InlineData("4263982640269299", "426398******9299")]
-        [InlineData("4263-9826-4026-9299", "4263-98*******-9299")]
+        [InlineData("4263-9826-4026-9299", "426398******9299")]
         public void Mask_ShouldApplyMasking(string number, string maskedNumber)
         {
             // Arrange

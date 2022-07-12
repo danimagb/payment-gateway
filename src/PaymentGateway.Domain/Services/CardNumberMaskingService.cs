@@ -12,7 +12,9 @@
         {
             var reg = new Regex(maskSchema);
 
-            return reg.Replace(cardNumber.Value, new MatchEvaluator((m) => new String('*', m.Length)));
+            var valueNoSpaces = cardNumber.Value.Replace(" ", string.Empty).Replace("-", string.Empty);
+
+            return reg.Replace(valueNoSpaces, new MatchEvaluator((m) => new String('*', m.Length)));
         }
     }
 }

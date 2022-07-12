@@ -1,0 +1,35 @@
+[2022-07-12 18:28:55.492 +01:00  INF]  Now listening on: https://localhost:7275
+[2022-07-12 18:28:55.537 +01:00  INF]  Now listening on: http://localhost:5275
+[2022-07-12 18:28:55.542 +01:00  INF]  Application started. Press Ctrl+C to shut down.
+[2022-07-12 18:28:55.543 +01:00  INF]  Hosting environment: Development
+[2022-07-12 18:28:55.544 +01:00  INF]  Content root path: C:\repos\payment-gateway\src\PaymentGateway.Api\
+[2022-07-12 18:28:57.304 +01:00  INF]  HTTP GET /swagger/index.html responded 200 in 478.8078 ms
+[2022-07-12 18:28:57.591 +01:00  INF]  HTTP GET /swagger/v1/swagger.json responded 200 in 87.4713 ms
+[2022-07-12 18:29:24.967 +01:00  INF]  HTTP POST /Payments responded 409 in 2368.8842 ms
+[2022-07-12 18:29:31.542 +01:00  INF]  HTTP POST /Payments responded 201 in 408.6175 ms
+[2022-07-12 18:29:44.979 +01:00  INF]  HTTP GET /Payments/4b73f174-5f93-4c96-a5d7-bc1eb9b93a81 responded 200 in 121.0876 ms
+[2022-07-12 18:29:56.150 +01:00  INF]  HTTP POST /Payments responded 409 in 143.4419 ms
+[2022-07-12 18:30:04.805 +01:00  INF]  HTTP POST /Payments responded 201 in 149.6920 ms
+[2022-07-12 18:30:29.206 +01:00  INF]  HTTP GET /Payments/2438e801-45e2-48a6-9111-0d719c0058fc responded 200 in 49.9589 ms
+[2022-07-12 18:31:38.017 +01:00  INF]  HTTP POST /Payments responded 409 in 210.6584 ms
+[2022-07-12 18:31:43.243 +01:00  INF]  HTTP POST /Payments responded 201 in 155.5046 ms
+[2022-07-12 18:31:56.058 +01:00  INF]  HTTP GET /Payments/f5a2c026-a1c5-4fdf-8b50-8f823305bab7 responded 200 in 23.8778 ms
+[2022-07-12 18:32:20.908 +01:00  INF]  HTTP POST /Payments responded 201 in 203.2267 ms
+[2022-07-12 18:36:34.666 +01:00  INF]  Now listening on: https://localhost:7275
+[2022-07-12 18:36:34.701 +01:00  INF]  Now listening on: http://localhost:5275
+[2022-07-12 18:36:34.705 +01:00  INF]  Application started. Press Ctrl+C to shut down.
+[2022-07-12 18:36:34.707 +01:00  INF]  Hosting environment: Development
+[2022-07-12 18:36:34.709 +01:00  INF]  Content root path: C:\repos\payment-gateway\src\PaymentGateway.Api\
+[2022-07-12 18:36:36.049 +01:00  INF]  HTTP GET /swagger/index.html responded 200 in 231.0361 ms
+[2022-07-12 18:36:36.295 +01:00  INF]  HTTP GET /swagger/v1/swagger.json responded 200 in 95.8529 ms
+[2022-07-12 18:37:00.543 +01:00  INF]  HTTP POST /Payments responded 201 in 2304.4826 ms
+[2022-07-12 18:37:10.516 +01:00  INF]  HTTP GET /Payments/22853885-780e-4908-b1b0-46bbb35a0921 responded 200 in 160.5193 ms
+[2022-07-12 18:37:33.281 +01:00  INF]  Now listening on: https://localhost:7275
+[2022-07-12 18:37:33.312 +01:00  INF]  Now listening on: http://localhost:5275
+[2022-07-12 18:37:33.314 +01:00  INF]  Application started. Press Ctrl+C to shut down.
+[2022-07-12 18:37:33.315 +01:00  INF]  Hosting environment: Development
+[2022-07-12 18:37:33.315 +01:00  INF]  Content root path: C:\repos\payment-gateway\src\PaymentGateway.Api\
+[2022-07-12 18:37:34.604 +01:00  INF]  HTTP GET /swagger/index.html responded 200 in 249.0805 ms
+[2022-07-12 18:37:34.804 +01:00  INF]  HTTP GET /swagger/v1/swagger.json responded 200 in 87.0335 ms
+[2022-07-12 18:37:51.769 +01:00  INF]  HTTP POST /Payments responded 201 in 2313.1812 ms
+[2022-07-12 18:38:02.045 +01:00  INF]  HTTP GET /Payments/216a362f-5422-4d01-93f1-2adb18e296b2 responded 200 in 146.0848 ms
